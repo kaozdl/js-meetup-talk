@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <span>
+      Json table drawer
+    </span>
+    <br>
+    <textarea 
+      id="header_loader"
+      type="textarea"
+      placeholder="Headers should be a list-like">
+    </textarea><br>
+    <button onclick="processHeaders()">
+      Load Headers
+    </button>
+    <br>
+    <textarea 
+      id="object_loader"
+      type="textarea"
+      placeholder="Objects should match the table description to be included">
+    </textarea><br>
+    <button onclick="processObject()">
+      Load Object
+    </button>
+  </div>
+  <br>
+  <p>Display Area</p>
+  <br>
+  <div>
+    <table id="table_target">
+    </table>
+  </div>
+</body>
+<script type="text/javascript">
+  const inputValue = (item) => JSON.parse(document.getElementById(item).value)
+
+  function processHeaders(){
+    let headers = '<tr>';
+    for (header of inputValue('header_loader')){
+      headers += `<td>${header.toString()}</td>`;
+    }
+    headers += '</tr>';
+    document.getElementById('table_target').innerHTML = headers;
+  }
+
+  function processObject(){
+    let table = document.getElementById('table_target');
+    if (table.innerHTML.indexOf('<') == -1){
+      alert('You need to load some headers first!');
+      return
+    }
+    let obj = inputValue('object_loader');
+    let renderized = (Reflect.has(obj,'color')) ? `<tr style="background-color:${obj.color}">` : '<tr>';
+    for (header of inputValue('header_loader')){
+      renderized += (Reflect.has(obj, header)) ? `<td>${Reflect.get(obj,header)}</td>`: '<td>No data</td>';
+    }
+    renderized += '<tr>';
+    table.innerHTML += renderized;
+  }
+</script>
