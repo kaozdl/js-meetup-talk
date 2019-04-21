@@ -7,19 +7,23 @@
       border: 1px solid black;
       border-collapse: collapse;
     }
+    div {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div>
     <span>
-      Json table drawer
+      Object Table Drawer
     </span>
     <br>
     <textarea 
       id="header_loader"
       type="textarea"
-      placeholder="Headers should be a list-like">
-    </textarea><br>
+      placeholder="Headers should be a list-like object"
+      rows=10
+      cols=80></textarea><br>
     <button onclick="processHeaders()">
       Load Headers
     </button>
@@ -27,18 +31,20 @@
     <textarea 
       id="object_loader"
       type="textarea"
-      placeholder="Objects should match the table description to be included">
-    </textarea><br>
+      placeholder="Object attributes should match the table headers to be included"
+      rows=10
+      cols=80></textarea><br>
     <button onclick="processObject()">
       Load Object
     </button>
   </div>
-  <br>
-  <p>Display Area</p>
-  <br>
   <div>
-    <table id="table_target">
-    </table>
+    <br>
+    <p>==== Display Area ====</p>
+    <br>
+  </div>
+  <div>
+    <table id="table_target" align="center"></table>
   </div>
 </body>
 <script type="text/javascript">
