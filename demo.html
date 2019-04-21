@@ -27,6 +27,8 @@
     <button onclick="processHeaders()">
       Load Headers
     </button>
+    <span>as JS:</span>
+    <input id="headersJS" type="checkbox"/>
     <br>
     <textarea 
       id="object_loader"
@@ -37,6 +39,8 @@
     <button onclick="processObject()">
       Load Object
     </button>
+    <span>as JS:</span>
+    <input id="objectJS" type="checkbox"/>
   </div>
   <div>
     <br>
@@ -48,11 +52,16 @@
   </div>
 </body>
 <script type="text/javascript">
-  const inputValue = (item) => JSON.parse(document.getElementById(item).value)
-
+  //Helpers
+  const headersJS = () => document.getElementById('headersJS').checked;
+  const objectJS = () => document.getElementById('objectJS').checked;
+  const inputValue = (item) => JSON.parse(document.getElementById(item).value);
+  const inputCode = (item) => eval(document.getElementById(item).value);
+  // Actual code
   function processHeaders(){
     let headers = '<tr>';
-    for (header of inputValue('header_loader')){
+    let iterableHeaders = (!headersJS()) ? inputValue('header_loader') : inputCode('header_loader');
+    for (header of iterableHeaders){
       headers += `<td>${header.toString()}</td>`;
     }
     headers += '</tr>';
@@ -65,9 +74,12 @@
       alert('You need to load some headers first!');
       return
     }
-    let obj = inputValue('object_loader');
+    console.log(objectJS());
+    let obj = (!objectJS()) ? inputValue('object_loader') : inputCode('object_loader');
     let renderized = (Reflect.has(obj,'color')) ? `<tr style="background-color:${obj.color}">` : '<tr>';
-    for (header of inputValue('header_loader')){
+    let iterableHeaders = (!headersJS()) ? inputValue('header_loader') : inputCode('header_loader');
+    console.log("Reaching2")
+    for (header of iterableHeaders){
       renderized += (Reflect.has(obj, header)) ? `<td>${Reflect.get(obj,header)}</td>`: '<td>No data</td>';
     }
     renderized += '<tr>';
