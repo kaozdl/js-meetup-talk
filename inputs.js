@@ -17,5 +17,5 @@ class IterableClass {
   }
 }
 
-new IterableClass();
+new IterableClass('name','age','telephone','address');
 
